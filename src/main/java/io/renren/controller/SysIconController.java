@@ -51,6 +51,17 @@ public class SysIconController {
 		return R.ok().put("page", pageUtil);
 	}
 	
+	/**
+	 * 获得所有的icon图标
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getAllIcon")
+	@RequiresPermissions("sysicon:list")
+	public R getAllIcon() {
+		List<SysIconEntity> list = sysIconService.list();
+		return R.ok().put("icons", list);
+	}
 	
 	/**
 	 * 信息

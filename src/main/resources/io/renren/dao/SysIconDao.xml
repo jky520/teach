@@ -17,6 +17,10 @@
  	<select id="queryTotal" resultType="int">
 		select count(*) from sys_icon 
 	</select>
+	
+	<select id="list" resultType="io.renren.entity.SysIconEntity">
+		select * from sys_icon
+	</select>
 	 
 	<insert id="save" parameterType="io.renren.entity.SysIconEntity">
 		insert into sys_icon

@@ -25,19 +25,19 @@
     <div v-show="!showList" class="panel panel-default">
 		<div class="panel-heading">{{title}}</div>
 		<form class="form-horizontal">
-											<div class="form-group">
-			   	<div class="col-sm-2 control-label"></div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">图标名称：</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysIcon.name" placeholder=""/>
+			      <input type="text" class="form-control" v-model="sysIcon.name" placeholder="如：fa fa-image"/>
 			    </div>
 			</div>
-									<div class="form-group">
-			   	<div class="col-sm-2 control-label">状态：0表示可用，1表示废弃</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">状态：</div>
 			   	<div class="col-sm-10">
 			      <input type="text" class="form-control" v-model="sysIcon.status" placeholder="状态：0表示可用，1表示废弃"/>
 			    </div>
 			</div>
-							<div class="form-group">
+			<div class="form-group">
 				<div class="col-sm-2 control-label"></div> 
 				<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
 				&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>

@@ -33,6 +33,11 @@ public class SysIconServiceImpl implements SysIconService {
 	}
 	
 	@Override
+	public List<SysIconEntity> list() {
+		return sysIconDao.list();
+	}
+	
+	@Override
 	public void save(SysIconEntity sysIcon){
 		sysIconDao.save(sysIcon);
 	}

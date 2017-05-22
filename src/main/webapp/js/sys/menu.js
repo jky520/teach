@@ -76,7 +76,8 @@ var vm = new Vue({
 			parentId:0,
 			type:1,
 			orderNum:0
-		}
+		},
+		icon:null // 新增的图标属性
 	},
 	methods: {
 		getMenu: function(menuId){
@@ -179,7 +180,7 @@ var vm = new Vue({
 				area: ['400px', '450px'],
 				shade: 0,
 				shadeClose: false,
-				//content: jQuery("#menuLayer"),
+				content: jQuery("#iconLayer"),
 				btn: ['确定', '取消'],
 			});
 		},

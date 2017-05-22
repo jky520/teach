@@ -4,13 +4,20 @@ $(function () {
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', width: 50, key: true },
-			{ label: '', name: 'name', width: 80 }, 			
-			{ label: '状态：0表示可用，1表示废弃', name: 'status', width: 80 }			
+			{ label: '图标名', name: 'name', width: 80 }, 
+			{ label: '图形', name: 'name', width: 80 ,formatter: function(value, options, row) {
+				return "<i class='fa fa-"+value+"'></i>";
+			}}, 
+			{ label: '状态', name: 'status', width: 80 ,formatter: function(value, options, row){
+				return value === 0 ? 
+						'<span class="label label-success">可用</span>' : 
+						'<span class="label label-danger">废弃</span>';
+				}}			
         ],
 		viewrecords: true,
-        height: 385,
-        rowNum: 10,
-		rowList : [10,30,50],
+        height: 495,
+        rowNum: 13,
+		rowList : [20,30,50],
         rownumbers: true, 
         rownumWidth: 25, 
         autowidth:true,
@@ -61,7 +68,7 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.sysIcon.id == null ? "../sysicon/save" : "../sysicon/update";
+			var url = vm.sysIcon.id == null ? "../sys/icon/save" : "../sys/icon/update";
 			$.ajax({
 				type: "POST",
 			    url: url,
@@ -86,7 +93,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: "../sysicon/delete",
+				    url: "../sys/icon/delete",
 				    data: JSON.stringify(ids),
 				    success: function(r){
 						if(r.code == 0){
@@ -101,7 +108,7 @@ var vm = new Vue({
 			});
 		},
 		getInfo: function(id){
-			$.get("../sysicon/info/"+id, function(r){
+			$.get("../sys/icon/info/"+id, function(r){
                 vm.sysIcon = r.sysIcon;
             });
 		},

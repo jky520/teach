@@ -170,6 +170,19 @@ var vm = new Vue({
 	            }
 			});
 		},
+		getIcon: function() {
+			layer.open({
+				type: 1,
+				offset: '50px',
+				skin: 'layui-layer-molv',
+				title: "选择图标",
+				area: ['400px', '450px'],
+				shade: 0,
+				shadeClose: false,
+				//content: jQuery("#menuLayer"),
+				btn: ['确定', '取消'],
+			});
+		},
 		reload: function (event) {
 			vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');

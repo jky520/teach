@@ -1,6 +1,6 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: '../sysicon/list',
+        url: '../sys/icon/list',
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', width: 50, key: true },

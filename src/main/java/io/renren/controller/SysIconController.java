@@ -26,15 +26,10 @@ import io.renren.utils.R;
  * @date 2017-05-22 17:19:10
  */
 @Controller
-@RequestMapping("sysicon")
+@RequestMapping("sys/icon")
 public class SysIconController {
 	@Autowired
 	private SysIconService sysIconService;
-	
-	@RequestMapping("/sysicon.html")
-	public String list(){
-		return "sysicon/sysicon.html";
-	}
 	
 	/**
 	 * 列表

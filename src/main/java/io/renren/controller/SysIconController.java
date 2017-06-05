@@ -59,7 +59,7 @@ public class SysIconController {
 	@RequestMapping("/getAllIcon")
 	@RequiresPermissions("sysicon:list")
 	public R getAllIcon() {
-		List<SysIconEntity> list = sysIconService.list();
+		List<String> list = sysIconService.list();
 		return R.ok().put("icons", list);
 	}
 	

@@ -33,7 +33,7 @@ public class SysIconServiceImpl implements SysIconService {
 	}
 	
 	@Override
-	public List<SysIconEntity> list() {
+	public List<String> list() {
 		return sysIconDao.list();
 	}
 	

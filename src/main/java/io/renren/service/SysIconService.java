@@ -20,7 +20,7 @@ public interface SysIconService {
 	
 	int queryTotal(Map<String, Object> map);
 	
-	List<SysIconEntity> list();
+	List<String> list();
 	
 	void save(SysIconEntity sysIcon);
 	

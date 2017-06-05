@@ -12,5 +12,5 @@ import io.renren.entity.SysIconEntity;
  * @date 2017-05-22 17:19:10
  */
 public interface SysIconDao extends BaseDao<SysIconEntity> {
-	List<SysIconEntity> list();
+	List<String> list();
 }

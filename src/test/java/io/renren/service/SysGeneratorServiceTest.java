@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -15,11 +16,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import io.renren.entity.SysIconEntity;
+import io.renren.utils.FileUtil;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:spring-renren.xml" })
 public class SysGeneratorServiceTest {
 	@Autowired
 	private SysGeneratorService sysGeneratorService;
+	@Autowired
+	private SysIconService sysIconService;
 	//zip输出路径
 	String zipPath = "E://renrenio//code.zip";
 	//表名
@@ -49,4 +55,14 @@ public class SysGeneratorServiceTest {
 		zip.close();
 	}
 
+	@Test
+	public void importIconTest() {
+		SysIconEntity sie = new SysIconEntity();
+		List<String> rs = FileUtil.readTxtFile("C:\\Users\\Administrator\\Desktop\\test.txt");
+		for (String s : rs) {
+			sie.setName(s);
+			sie.setStatus(0);
+			sysIconService.save(sie);
+		}
+	}
 }

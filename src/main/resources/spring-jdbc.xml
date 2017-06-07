@@ -53,9 +53,15 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="configLocation" value="classpath:mybatis.xml" />
 		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations">
+			<list>
+                <value>classpath*:/io/jky/*.xml</value>
+                <value>classpath*:/io/renren/*.xml</value>
+            </list>
+		</property>
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="io.renren.dao" />
+		<property name="basePackage" value="io.renren.dao,io.jky.dao" />
 	</bean>
 </beans>

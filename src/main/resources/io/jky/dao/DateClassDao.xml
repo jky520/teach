@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.jky.dao.DateClassDao">
+
+	<select id="queryObject" resultType="io.jky.entity.DateClassEntity">
+		select * from date_class where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="io.jky.entity.DateClassEntity">
+		select * from date_class 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from date_class 
+	</select>
+	 
+	<insert id="save" parameterType="io.jky.entity.DateClassEntity">
+		insert into date_class
+		(
+			`id`, 
+			`user_id`, 
+			`name`, 
+			`create_at`
+		)
+		values
+		(
+			#{id}, 
+			#{userId}, 
+			#{name}, 
+			#{createAt}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="io.jky.entity.DateClassEntity">
+		update date_class 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="createAt != null">`create_at` = #{createAt}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from date_class where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from date_class where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

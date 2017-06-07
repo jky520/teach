@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+#parse("sys/header.html")
+</head>
+<body>
+<div id="rrapp" v-cloak>
+	<div v-show="showList">
+		<div class="grid-btn">
+			#if($shiro.hasPermission("classregistration:save"))
+			<a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			#end
+			#if($shiro.hasPermission("classregistration:update"))
+			<a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			#end
+			#if($shiro.hasPermission("classregistration:delete"))
+			<a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			#end
+		</div>
+	    <table id="jqGrid"></table>
+	    <div id="jqGridPager"></div>
+    </div>
+    
+    <div v-show="!showList" class="panel panel-default">
+		<div class="panel-heading">{{title}}</div>
+		<form class="form-horizontal">
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">年月</div>
+			   	<div class="col-sm-10 input-prepend input-group">
+			   		<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+			      	<input type="text" id="yd" readonly class="form-control" :value="classRegistration.yearMont" placeholder="请选择日期"/>
+			    </div>
+			</div>
+									<!-- <div class="form-group">
+			   	<div class="col-sm-2 control-label">日期</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="classRegistration.day" placeholder="日期"/>
+			    </div>
+			</div> -->
+				<!-- 					<div class="form-group">
+			   	<div class="col-sm-2 control-label">星期</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="classRegistration.week" placeholder="星期"/>
+			    </div>
+			</div> -->
+			<div v-if="classRegistration.startFinishDate == null" class="form-group">
+			   	<div class="col-sm-2 control-label">起日期</div>
+			   	<div class="col-sm-10">
+			      	<input type="number" class="form-control" style="width:45%;float:left" v-model="classRegistration.startDate" placeholder="起日期:1"/>
+			    	<input type="number" class="form-control" style="width:45%;float:right" v-model="classRegistration.endDate" placeholder="止日期:30"/>
+			    </div>
+			</div>
+			<div v-if="classRegistration.startFinishDate != null" class="form-group">
+			   	<div class="col-sm-2 control-label">起日期</div>
+			   	<div class="col-sm-10">
+			      <input type="number" class="form-control" v-model="classRegistration.startFinishDate" placeholder="起日期时间"/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">班级</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="classRegistration.classRoom" placeholder="班级"/>
+			    </div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">是否补课</div>
+			   	<div class="col-sm-10">
+			   		<label class="checkbox-inline">
+			   			<input type="checkbox" v-model="classRegistration.isWeek" />周末 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			      		<input type="checkbox" v-model="classRegistration.isNight" />晚间
+			   	  	</label>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">授课地点</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="classRegistration.adress" placeholder="授课地点"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">课程内容</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="classRegistration.content" placeholder="课程内容"/>
+			    </div>
+			</div>
+									<!-- <div class="form-group">
+			   	<div class="col-sm-2 control-label">课时折算（节）</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" v-model="classRegistration.classCount" placeholder="课时折算（节）"/>
+			    </div>
+			</div> -->
+							<div class="form-group">
+				<div class="col-sm-2 control-label"></div> 
+				<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+				&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script src="${rc.contextPath}/js/jky/classregistration.js?_${date.systemTime}"></script>
+</body>
+</html>

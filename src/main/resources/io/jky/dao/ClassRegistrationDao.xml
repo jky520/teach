@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.jky.dao.ClassRegistrationDao">
+
+	<select id="queryObject" resultType="io.jky.entity.ClassRegistrationEntity">
+		select * from class_registration where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="io.jky.entity.ClassRegistrationEntity">
+		select * from class_registration 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from class_registration 
+	</select>
+	 
+	<insert id="save" parameterType="io.jky.entity.ClassRegistrationEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into class_registration
+		(
+			`time_class_id`, 
+			`day`, 
+			`week`, 
+			`start_finish_date`, 
+			`class_room`, 
+			`adress`, 
+			`content`, 
+			`class_count`
+		)
+		values
+		(
+			#{timeClassId}, 
+			#{day}, 
+			#{week}, 
+			#{startFinishDate}, 
+			#{classRoom}, 
+			#{adress}, 
+			#{content}, 
+			#{classCount}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="io.jky.entity.ClassRegistrationEntity">
+		update class_registration 
+		<set>
+			<if test="timeClassId != null">`time_class_id` = #{timeClassId}, </if>
+			<if test="day != null">`day` = #{day}, </if>
+			<if test="week != null">`week` = #{week}, </if>
+			<if test="startFinishDate != null">`start_finish_date` = #{startFinishDate}, </if>
+			<if test="classRoom != null">`class_room` = #{classRoom}, </if>
+			<if test="adress != null">`adress` = #{adress}, </if>
+			<if test="content != null">`content` = #{content}, </if>
+			<if test="classCount != null">`class_count` = #{classCount}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from class_registration where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from class_registration where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

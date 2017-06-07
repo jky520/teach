@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.jky.dao.DateclassRegistDao">
+	<insert id="save" parameterType="io.jky.entity.DateclassRegistEntity">
+		insert into dateclass_regist
+		(
+			`user_id`, 
+			`dc_id`,
+			`cr_id`,
+		)
+		values
+		(
+			#{userId}, 
+			#{dcId},
+			#{crId}
+		)
+	</insert>
+	
+	<select id="queryDcIds" parameterType="io.jky.entity.DateclassRegistEntity" resultType="Long">
+		select cr_id from dateclass_regist where user_id = #{userId} and dc_id = #{dcId}
+	</select>
+	
+	<delete id="deleteBatch">
+		delete from dateclass_regist where cr_id in 
+		<foreach item="crId" collection="array" open="(" separator="," close=")">
+			#{crId}
+		</foreach>
+	</delete>
+</mapper>

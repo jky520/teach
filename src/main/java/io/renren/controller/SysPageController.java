@@ -18,4 +18,8 @@ public class SysPageController {
 	public String page(@PathVariable("url") String url){
 		return "sys/" + url + ".html";
 	}
+	@RequestMapping("jky/{url}.html")
+	public String page1(@PathVariable("url") String url){
+		return "jky/" + url + ".html";
+	}
 }

@@ -1,0 +1,25 @@
+CREATE TABLE `class_registration` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `time_class_id` bigint(20) DEFAULT NULL COMMENT '日期分类ID',
+  `day` varchar(4) DEFAULT NULL COMMENT '日期',
+  `week` varchar(8) DEFAULT NULL COMMENT '星期',
+  `start_finish_date` varchar(50) DEFAULT NULL COMMENT '起止日期',
+  `class_room` varchar(20) DEFAULT NULL COMMENT '班级',
+  `adress` varchar(50) DEFAULT NULL COMMENT '授课地点',
+  `content` varchar(50) DEFAULT NULL COMMENT '课程内容',
+  `class_count` int(4) DEFAULT NULL COMMENT '课时折算（节）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `date_class` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `create_at` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `dateclass_regist` (
+  `user_id` bigint(20) DEFAULT NULL,
+  `dc_id` bigint(20) DEFAULT NULL,
+  `cr_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

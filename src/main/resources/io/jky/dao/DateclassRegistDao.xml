@@ -7,7 +7,7 @@
 		(
 			`user_id`, 
 			`dc_id`,
-			`cr_id`,
+			`cr_id`
 		)
 		values
 		(

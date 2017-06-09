@@ -5,6 +5,8 @@ import io.jky.entity.ClassRegistrationEntity;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 
  * 
@@ -27,4 +29,6 @@ public interface ClassRegistrationService {
 	void delete(Long id);
 	
 	void deleteBatch(Long[] ids);
+	
+	void generatorWord(List<Map<String,Object>> lists,HttpServletResponse response);
 }

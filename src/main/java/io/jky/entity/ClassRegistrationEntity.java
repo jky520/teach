@@ -36,6 +36,10 @@ public class ClassRegistrationEntity implements Serializable {
 	private Integer classCount;
 	
 	private String yearMont;
+	private int startDate;
+	private int endDate;
+	private boolean isWeek;
+	private boolean isNight;
 
 	/**
 	 * 设置：
@@ -153,5 +157,33 @@ public class ClassRegistrationEntity implements Serializable {
 	@Transient
 	public void setYearMont(String yearMont) {
 		this.yearMont = yearMont;
+	}
+	public int getStartDate() {
+		return startDate;
+	}
+	@Transient
+	public void setStartDate(int startDate) {
+		this.startDate = startDate;
+	}
+	public int getEndDate() {
+		return endDate;
+	}
+	@Transient
+	public void setEndDate(int endDate) {
+		this.endDate = endDate;
+	}
+	public boolean getIsWeek() {
+		return isWeek;
+	}
+	@Transient
+	public void setIsWeek(boolean isWeek) {
+		this.isWeek = isWeek;
+	}
+	public boolean getIsNight() {
+		return isNight;
+	}
+	@Transient
+	public void setIsNight(boolean isNight) {
+		this.isNight = isNight;
 	}
 }

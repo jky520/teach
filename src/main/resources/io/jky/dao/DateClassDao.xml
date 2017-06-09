@@ -6,6 +6,10 @@
 	<select id="queryObject" resultType="io.jky.entity.DateClassEntity">
 		select * from date_class where id = #{value}
 	</select>
+	
+	<select id="getObjectByName" resultType="io.jky.entity.DateClassEntity" parameterType="String">
+		select * from date_class where name = #{name}
+	</select>
 
 	<select id="queryList" resultType="io.jky.entity.DateClassEntity">
 		select * from date_class 
@@ -22,14 +26,12 @@
 		insert into date_class
 		(
 			`id`, 
-			`user_id`, 
 			`name`, 
 			`create_at`
 		)
 		values
 		(
 			#{id}, 
-			#{userId}, 
 			#{name}, 
 			#{createAt}
 		)
@@ -38,7 +40,6 @@
 	<update id="update" parameterType="io.jky.entity.DateClassEntity">
 		update date_class 
 		<set>
-			<if test="userId != null">`user_id` = #{userId}, </if>
 			<if test="name != null">`name` = #{name}, </if>
 			<if test="createAt != null">`create_at` = #{createAt}</if>
 		</set>

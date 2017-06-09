@@ -1,4 +1,6 @@
 $(function () {
+	queryDateDefind('#dateclassame',vm.q.dateclassame), // 在加载页面的时候给查询框加上日期控件
+	$("#dateclassame").prop("placeholder",getYearMont());
     $("#jqGrid").jqGrid({
         url: '../jky/classregistration/list',
         datatype: "json",
@@ -37,13 +39,64 @@ $(function () {
         	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
         }
     });
+	
 });
+
+getYearMont = function() {
+	var dt = new Date();
+	m = dt.getMonth()+1;
+	m = m<10 ? "0"+m : m;
+	return dt.getFullYear()+"-"+m;
+	
+}
+// 自定义的函数在这里可以使用vm
+queryDateDefind= function (obj,inputValue) {
+	$(obj).datetimepicker({
+    	format: 'yyyy-mm',
+    	//todayBtn : "linked", 
+        autoclose: true,
+        startView: 'year',
+        minView: 'year',
+        maxView:'decade',
+        todayHighlight : true, 
+        language: 'zh-CN',
+    	pickerPosition:'bottom-left',
+    	clearBtn:true,
+    	//endDate:new Date("2017-14-01")
+    }).on('changeDate',function(e){ 		    	
+    	var beginTime = e.date;
+    	$(this).datetimepicker('setEndDate', beginTime); 
+    	var value = $(obj).val();
+    	//vm.q.dateclassame = value;
+    	inputValue = value;
+    	console.log("changeDate===================")
+    }).on("show",function(ev) {
+    	var dt = new Date();
+    	var y = dt.getFullYear();
+    	var m = dt.getMonth()+1+2;
+    	if(m>12) {
+    		year += 1;
+    		m = 1;
+    	}
+    	var year = y+"-"+m+"-"+"01";
+    	$(this).datetimepicker('setEndDate', new Date(year));
+    	console.log("show===================")
+    }).on('hide', function (ev) {
+        var value = $(this).val();
+        inputValue = value;
+        console.log("hide===================")
+    });
+}
+
 
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
 		showList: true,
 		title: null,
+		q:{
+			dateclassame: null
+		},
 		classRegistration: {
 			startDate:"", // 把实体里没有的显示出来
 			endDate:"",
@@ -54,40 +107,9 @@ var vm = new Vue({
 	methods: {
 		//==============================================
 		dateDefind: function () {
-			var self = this;
-			$('#yd').datetimepicker({
-		    	format: 'yyyy-mm',
-		    	//todayBtn : "linked", 
-		        autoclose: true,
-		        startView: 'year',
-		        minView: 'year',
-		        maxView:'decade',
-		        todayHighlight : true, 
-		        language: 'zh-CN',
-		    	pickerPosition:'bottom-left',
-		    	clearBtn:true,
-		    	//endDate:new Date("2017-14-01")
-		    }).on('changeDate',function(e){ 		    	
-		    	var beginTime = e.date;
-		    	$('#yd').datetimepicker('setEndDate', beginTime); 
-		    	var value = $("#yd").val();
-	            self.classRegistration.yearMont = value;
-		    }).on("show",function(ev) {
-		    	var dt = new Date();
-		    	var y = dt.getFullYear();
-		    	var m = dt.getMonth()+1+2;
-		    	if(m>12) {
-		    		year += 1;
-		    		m = 1;
-		    	}
-		    	var year = y+"-"+m+"-"+"01";
-		    	$(this).datetimepicker('setEndDate', new Date(year));
-		    });
-	        //当选择器隐藏时，讲选择框只赋值给data里面的time
-	        $('#yd').datetimepicker().on('hide', function (ev) {
-	            var value = $("#yd").val();
-	            self.classRegistration.yearMont = value;
-	        });
+			var obj = '#yd';
+			var inputValue = this.classRegistration.yearMont;
+			queryDateDefind(obj,inputValue);
 	    },
 		//==============================================
 		query: function () {
@@ -109,6 +131,11 @@ var vm = new Vue({
             
             vm.getInfo(id)
             this.dateDefind();
+		},
+		down: function(ev) {
+			var c = vm.q.dateclassame;
+			location.href = "../jky/classregistration/down?dt=" + JSON.stringify(c);
+			
 		},
 		saveOrUpdate: function (event) {
 			var url = vm.classRegistration.id == null ? "../jky/classregistration/save" : "../jky/classregistration/update";
@@ -158,11 +185,18 @@ var vm = new Vue({
             });
 		},
 		reload: function (event) {
+			queryDateDefind('#dateclassame',vm.q.dateclassame),
 			vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
+			console.log(vm.q.dateclassame)
 			$("#jqGrid").jqGrid('setGridParam',{ 
+				postData:{'dt': vm.q.dateclassame}, // 查询自己可以新增参数
                 page:page
             }).trigger("reloadGrid");
 		}
 	}
 });
+
+vm.$watch('dt', function (newValue, oldValue) {
+	 console.log('inner:', newValue) // 后输出 "inner" 2
+})

@@ -16,6 +16,8 @@ public interface DateClassService {
 	
 	DateClassEntity queryObject(Long id);
 	
+	DateClassEntity getObjectByName(String name);
+	
 	List<DateClassEntity> queryList(Map<String, Object> map);
 	
 	int queryTotal(Map<String, Object> map);

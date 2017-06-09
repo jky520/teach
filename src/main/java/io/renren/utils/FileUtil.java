@@ -1,6 +1,9 @@
 package io.renren.utils;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +14,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -20,6 +25,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.UnderlinePatterns;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -31,6 +40,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableCell.XWPFVertAlign;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 public class FileUtil {
+	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
 	public static List<String> readTxtFile(String fileName) {
 		List<String> list = new ArrayList<String>();
 		try {
@@ -59,7 +69,73 @@ public class FileUtil {
 	}
 	
 	
-	public static void readwriteWord(String filePath, Map<String,Object> map) {
+	public static void readwriteWord(String filePath, List<Map<String,Object>> lists, HttpServletResponse response) throws IOException {
+		System.out.println("============");
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		
+		//读取word模板
+		FileInputStream in = null;
+		int[] fontSize = {10,8,8,8,8,8,8,8};// 设置每一个单元格的字体大小
+		try {
+			in = new FileInputStream(new File(filePath));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		XWPFDocument xdoc = null;
+		try {
+			xdoc = new XWPFDocument(in);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//replaceInPara(xdoc,params);
+		//替换表格里面的变量  
+	    replaceInTable(xdoc, lists,fontSize);
+	    String fileName = sdf.format(new Date())+".docx";
+		try {
+			//os = new FileOutputStream("f:\\"+fileName);  
+			xdoc.write(os);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}  
+		
+		byte[] content = os.toByteArray();
+		InputStream is = new ByteArrayInputStream(content);
+		// 设置response参数，可以打开下载页面
+	    response.reset();
+	    response.setContentType("application/vnd.ms-excel;charset=utf-8");
+	    response.setHeader("Content-Disposition", "attachment;filename="
+	          + new String((fileName).getBytes(), "iso-8859-1"));
+	    ServletOutputStream out = response.getOutputStream();
+	    BufferedInputStream bis = null;
+	    BufferedOutputStream bos = null;
+	 
+	    try {
+	    	bis = new BufferedInputStream(is);
+	        bos = new BufferedOutputStream(out);
+	        byte[] buff = new byte[2048];
+	        int bytesRead;
+	        // Simple read/write loop.
+	        while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+	          bos.write(buff, 0, bytesRead);
+	        }
+	      } catch (Exception e) {
+	        // TODO: handle exception
+	        e.printStackTrace();
+	      } finally {
+	        if (bis != null)
+	          bis.close();
+	        if (bos != null)
+	          bos.close();
+	    }
+	    close(os);  
+	    close(in);  
+	}
+	
+	
+	/*public static void readwriteWord(String filePath, Map<String,Object> map) {
 		//读取word模板
 		FileInputStream in = null;
 		int[] fontSize = {10,8,8,8,8,8,8,8};// 设置每一个单元格的字体大小
@@ -90,7 +166,7 @@ public class FileUtil {
 	    close(os);  
 	    close(in);  
 		
-	}
+	}*/
 	
 	/** 
     * 替换段落里面的变量 
@@ -133,7 +209,7 @@ public class FileUtil {
     * @param doc 要替换的文档 
     * @param params 参数 
     */  
-    private static void replaceInTable(XWPFDocument doc, Map<String, Object> params,int[] fontSize) {  
+    private static void replaceInTable(XWPFDocument doc, List<Map<String,Object>> lists,int[] fontSize) {  
     	Iterator<XWPFTable> iterator = doc.getTablesIterator();  
     	XWPFTable table;  
     	List<XWPFTableRow> rows;  
@@ -146,27 +222,30 @@ public class FileUtil {
     			row = rows.get(i);
                 cells = row.getTableCells();  
                 XWPFTableCell cell = null;
-                for (int k = 0,j=1; k < params.keySet().size(); k++,j++) { 
-                	cell = cells.get(j);
-                	Object key = params.keySet().toArray()[k];
-                    Object value = params.get(key);
-                    
-                    // 关键的一步，删掉原有的段落
-                    cell.removeParagraph(0);// 感觉注释有些问题,这个好像只是删除单元格原有内容,而不是删掉整个段落
-                                                                                                                                                                                                                                                                                                                                   
-                    XWPFParagraph newPara = new XWPFParagraph(cell.getCTTc().addNewP(), cell);                                                                                                                               
-                    XWPFRun run=newPara.createRun();                       
-                   
-                    /**内容居中显示**/
-                    newPara.setAlignment(ParagraphAlignment.CENTER);
-                   
-                    //run.getCTR().addNewRPr().addNewColor().setVal("FF0000");/**FF0000红色*/    
-                    run.setFontSize(fontSize[k]);
-                    run.setBold(true);
-                    run.setFontFamily("宋体");
-                    //run.setUnderline(UnderlinePatterns.THICK);
-                    run.setText(value.toString());       
-                }  
+                if(i<lists.size()) {
+                	 Map<String,Object> params = lists.get(i-1);
+                     for (int k = 0,j=1; k < params.keySet().size(); k++,j++) { 
+                     	cell = cells.get(j);
+                     	Object key = params.keySet().toArray()[k];
+                         Object value = params.get(key);
+                         
+                         // 关键的一步，删掉原有的段落
+                         cell.removeParagraph(0);// 感觉注释有些问题,这个好像只是删除单元格原有内容,而不是删掉整个段落
+                                                                                                                                                                                                                                                                                                                                        
+                         XWPFParagraph newPara = new XWPFParagraph(cell.getCTTc().addNewP(), cell);                                                                                                                               
+                         XWPFRun run=newPara.createRun();                       
+                        
+                         /**内容居中显示**/
+                         newPara.setAlignment(ParagraphAlignment.CENTER);
+                        
+                         //run.getCTR().addNewRPr().addNewColor().setVal("FF0000");/**FF0000红色*/    
+                         run.setFontSize(fontSize[k]);
+                         run.setBold(true);
+                         run.setFontFamily("宋体");
+                         //run.setUnderline(UnderlinePatterns.THICK);
+                         run.setText(value.toString());       
+                     }
+                }
              }  
     	}  
     }  
@@ -229,6 +308,6 @@ public class FileUtil {
 	    params.put("ks", "4");  
 		String url = "f:\\课时登记表.docx";
 		
-		readwriteWord(url,params);
+		//readwriteWord(url,params);
 	}
 }

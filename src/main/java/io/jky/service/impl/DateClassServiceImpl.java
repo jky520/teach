@@ -51,5 +51,10 @@ public class DateClassServiceImpl implements DateClassService {
 	public void deleteBatch(Long[] ids){
 		dateClassDao.deleteBatch(ids);
 	}
+
+	@Override
+	public DateClassEntity getObjectByName(String name) {
+		return dateClassDao.getObjectByName(name);
+	}
 	
 }

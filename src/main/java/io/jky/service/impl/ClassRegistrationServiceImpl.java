@@ -1,14 +1,39 @@
 package io.jky.service.impl;
 
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+
 import io.jky.dao.ClassRegistrationDao;
+import io.jky.dao.DateClassDao;
+import io.jky.dao.DateclassRegistDao;
 import io.jky.entity.ClassRegistrationEntity;
+import io.jky.entity.DateClassEntity;
+import io.jky.entity.DateclassRegistEntity;
 import io.jky.service.ClassRegistrationService;
+import io.jky.service.DateclassRegistService;
+import io.renren.utils.FileUtil;
+import io.renren.utils.GeneratorDateUtils;
+import io.renren.utils.ShiroUtils;
 
 
 
@@ -16,6 +41,15 @@ import io.jky.service.ClassRegistrationService;
 public class ClassRegistrationServiceImpl implements ClassRegistrationService {
 	@Autowired
 	private ClassRegistrationDao classRegistrationDao;
+	@Autowired
+	private DateClassDao dateClassDao;
+	@Autowired
+	private DateclassRegistDao dateclassRegistDao;
+	
+	@Autowired
+	private DateclassRegistService dateclassRegistService;
+	
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 	
 	@Override
 	public ClassRegistrationEntity queryObject(Long id){
@@ -34,7 +68,20 @@ public class ClassRegistrationServiceImpl implements ClassRegistrationService {
 	
 	@Override
 	public void save(ClassRegistrationEntity classRegistration){
-		classRegistrationDao.save(classRegistration);
+		//classRegistrationDao.save(classRegistration);
+		DateClassEntity dce =  dateClassDao.getObjectByName(classRegistration.getYearMont());
+		classRegistration.setTimeClassId(dce.getId());
+		//classRegistrationDao.save(classRegistration);
+		Long userId = ShiroUtils.getUserId();
+		DateclassRegistEntity dre = new DateclassRegistEntity();
+		dre.setUserId(userId);
+		//dre.setDrId(classRegistration.getId());
+		dre.setDcId(dce.getId());
+		try {
+			new GeneratorDateUtils().generatorData(classRegistrationDao,classRegistration,dateclassRegistDao,dre);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -50,6 +97,16 @@ public class ClassRegistrationServiceImpl implements ClassRegistrationService {
 	@Override
 	public void deleteBatch(Long[] ids){
 		classRegistrationDao.deleteBatch(ids);
+	}
+
+	@Override
+	public void generatorWord(List<Map<String,Object>> lists, HttpServletResponse response) {
+		String url = "f:\\课时登记表.docx";
+		try {
+			FileUtil.readwriteWord(url, lists,response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

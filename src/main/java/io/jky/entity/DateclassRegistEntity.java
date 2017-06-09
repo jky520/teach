@@ -7,7 +7,7 @@ public class DateclassRegistEntity implements Serializable {
 	private static final long serialVersionUID = -869157637157368273L;
 	private Long userId;
 	private Long dcId;
-	private Long drId;
+	private Long crId;
 	
 	public Long getUserId() {
 		return userId;
@@ -21,10 +21,11 @@ public class DateclassRegistEntity implements Serializable {
 	public void setDcId(Long dcId) {
 		this.dcId = dcId;
 	}
-	public Long getDrId() {
-		return drId;
+	public Long getCrId() {
+		return crId;
 	}
-	public void setDrId(Long drId) {
-		this.drId = drId;
+	public void setCrId(Long crId) {
+		this.crId = crId;
 	}
+	
 }

@@ -8,6 +8,14 @@
 <div id="rrapp" v-cloak>
 	<div v-show="showList">
 		<div class="grid-btn">
+			<!-- <div class="col-sm-2 input-prepend input-group form-group" style="padding-left:0px">
+		   		<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+		      	<input type="text" id="dateclassame" readonly class="form-control" v-model="q.dateclassame" @keyup.enter="query" placeholder="请选择日期"/>
+		    </div> -->
+			<div class="form-group col-sm-2" style="padding-left:0px">
+				<input type="text" id="dateclassame" class="form-control" v-model="q.dateclassame" @keyup.enter="query" placeholder="格式：年-月">
+			</div>
+			<a class="btn btn-default" @click="query">查询</a>
 			#if($shiro.hasPermission("classregistration:save"))
 			<a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
 			#end
@@ -16,6 +24,9 @@
 			#end
 			#if($shiro.hasPermission("classregistration:delete"))
 			<a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			#end
+			#if($shiro.hasPermission("classregistration:down"))
+			<a class="btn btn-primary" @click="down"><i class="fa fa-download"></i>&nbsp;下载</a>
 			#end
 		</div>
 	    <table id="jqGrid"></table>
@@ -54,7 +65,7 @@
 			<div v-if="classRegistration.startFinishDate != null" class="form-group">
 			   	<div class="col-sm-2 control-label">起日期</div>
 			   	<div class="col-sm-10">
-			      <input type="number" class="form-control" v-model="classRegistration.startFinishDate" placeholder="起日期时间"/>
+			      <input type="text" class="form-control" v-model="classRegistration.startFinishDate" placeholder="起日期时间"/>
 			    </div>
 			</div>
 			<div class="form-group">

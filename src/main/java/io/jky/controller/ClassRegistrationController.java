@@ -63,11 +63,16 @@ public class ClassRegistrationController {
 		dt = dt != null ? dt :  sdf.format(new Date());
 		DateClassEntity dec = dateClassService.getObjectByName(dt);
 		Long userId = ShiroUtils.getUserId();
-		Long[] crIds = dateclassRegistService.queryDcIdByUserId(userId, dec.getId()).toArray(new Long[]{});
 		Map<String, Object> map = new HashMap<>();
+		
+		map.put("crIds", null);
+		
+		if(dec != null) {
+			Long[] crIds = dateclassRegistService.queryDcIdByUserId(userId, dec.getId()).toArray(new Long[]{});
+			if(crIds.length != 0) map.put("crIds", crIds);
+		}
 		map.put("offset", (page - 1) * limit);
 		map.put("limit", limit);
-		map.put("ids", crIds);
 		
 		//查询列表数据
 		List<ClassRegistrationEntity> classRegistrationList = classRegistrationService.queryList(map);
@@ -130,26 +135,13 @@ public class ClassRegistrationController {
 	/**
 	 * 生成word文档并进行下载
 	 */
-	@RequestMapping("/down1")
-	@RequiresPermissions("classregistration:down")
-	public void down1(List<Map<String,Object>> lists, HttpServletResponse response) throws IOException{
-		classRegistrationService.generatorWord(lists,response);
-	}
-	
-	/**
-	 * 生成word文档并进行下载
-	 */
 	@ResponseBody
 	@RequestMapping("/down")
 	@RequiresPermissions("classregistration:down")
-	public R down(String dt, HttpServletResponse response) throws IOException{
-		String myDate = sdf.format(new Date());
-		DateClassEntity dec = dateClassService.getObjectByName(myDate);
-		//Long userId = ShiroUtils.getUserId();
-		Long userId = 1l;
-		Long[] crIds = dateclassRegistService.queryDcIdByUserId(userId, dec.getId()).toArray(new Long[]{});
+	public R down(String n, String dt, HttpServletResponse response) throws IOException{
 		Map<String, Object> map = new HashMap<>();
-		map.put("ids", crIds);
+		Long[] crIds = this.getCrIds(dt, response);
+		map.put("crIds", crIds);
 		List<ClassRegistrationEntity> classRegistrationList = classRegistrationService.queryList(map);
 		String teacher = ShiroUtils.getUserEntity().getUsername();
 		List<Map<String,Object>> lists = new ArrayList<Map<String,Object>>();
@@ -162,10 +154,12 @@ public class ClassRegistrationController {
 				lists1.add(getEntityMap(cre,teacher));
 			}
 		}
-		//this.down1(lists1, response);
-		classRegistrationService.generatorWord(lists,response);
-		
-		return R.ok().put("v", lists1);
+		if("1".equals(n)) {
+			classRegistrationService.generatorWord("一",lists,response);
+		} else {
+			classRegistrationService.generatorWord("二",lists1,response);
+		}
+		return R.ok();
 	}
 		
 	private Map<String,Object> getEntityMap(ClassRegistrationEntity cre,String t) {
@@ -179,5 +173,26 @@ public class ClassRegistrationController {
 	    params.put("teacher", t);  
 	    params.put("ks", cre.getClassCount());  
 		return params;
+	}
+	
+	private Long[] getCrIds(String dt,HttpServletResponse response) {
+		if(dt == null || "".equals(dt)) {
+			dt = sdf.format(new Date());
+		}
+		DateClassEntity dec = dateClassService.getObjectByName(dt);
+		Long userId = ShiroUtils.getUserId();
+		List<Long> ss =  dateclassRegistService.queryDcIdByUserId(userId, dec.getId());
+		Long[] crIds = ss.size() > 0 ? ss.toArray(new Long[]{}) : new Long[]{};
+		return crIds;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/getCrIdCount")
+	@RequiresPermissions("classregistration:down")
+	public R getCrIdCount(String dt, HttpServletResponse response) {
+		boolean flag = false;
+		Long[] ids = getCrIds(dt, response);
+		if(ids.length > 30) flag = true;
+		return R.ok().put("isTrue", flag);
 	}
 }

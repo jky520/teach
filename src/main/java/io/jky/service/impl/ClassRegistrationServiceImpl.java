@@ -1,26 +1,14 @@
 package io.jky.service.impl;
 
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import io.jky.dao.ClassRegistrationDao;
@@ -69,7 +57,7 @@ public class ClassRegistrationServiceImpl implements ClassRegistrationService {
 	@Override
 	public void save(ClassRegistrationEntity classRegistration){
 		//classRegistrationDao.save(classRegistration);
-		DateClassEntity dce =  dateClassDao.getObjectByName(classRegistration.getYearMont());
+		DateClassEntity dce =  dateClassDao.getObjectByName(classRegistration.getYearMoth());
 		classRegistration.setTimeClassId(dce.getId());
 		//classRegistrationDao.save(classRegistration);
 		Long userId = ShiroUtils.getUserId();
@@ -100,10 +88,10 @@ public class ClassRegistrationServiceImpl implements ClassRegistrationService {
 	}
 
 	@Override
-	public void generatorWord(List<Map<String,Object>> lists, HttpServletResponse response) {
+	public void generatorWord(String n, List<Map<String,Object>> lists, HttpServletResponse response) {
 		String url = "f:\\课时登记表.docx";
 		try {
-			FileUtil.readwriteWord(url, lists,response);
+			FileUtil.readwriteWord(n,url, lists,response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

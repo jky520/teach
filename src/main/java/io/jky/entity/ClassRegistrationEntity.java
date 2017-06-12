@@ -35,7 +35,7 @@ public class ClassRegistrationEntity implements Serializable {
 	//课时折算（节）
 	private Integer classCount;
 	
-	private String yearMont;
+	private String yearMoth;
 	private int startDate;
 	private int endDate;
 	private boolean isWeek;
@@ -150,14 +150,6 @@ public class ClassRegistrationEntity implements Serializable {
 		return classCount;
 	}
 	
-	public String getYearMont() {
-		return yearMont;
-	}
-	
-	@Transient
-	public void setYearMont(String yearMont) {
-		this.yearMont = yearMont;
-	}
 	public int getStartDate() {
 		return startDate;
 	}
@@ -186,4 +178,13 @@ public class ClassRegistrationEntity implements Serializable {
 	public void setIsNight(boolean isNight) {
 		this.isNight = isNight;
 	}
+	public String getYearMoth() {
+		return yearMoth;
+	}
+	@Transient
+	public void setYearMoth(String yearMoth) {
+		this.yearMoth = yearMoth;
+	}
+	
+	
 }

@@ -69,8 +69,7 @@ public class FileUtil {
 	}
 	
 	
-	public static void readwriteWord(String filePath, List<Map<String,Object>> lists, HttpServletResponse response) throws IOException {
-		System.out.println("============");
+	public static void readwriteWord(String n,String filePath, List<Map<String,Object>> lists, HttpServletResponse response) throws IOException {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		
 		//读取word模板
@@ -91,7 +90,8 @@ public class FileUtil {
 		//replaceInPara(xdoc,params);
 		//替换表格里面的变量  
 	    replaceInTable(xdoc, lists,fontSize);
-	    String fileName = sdf.format(new Date())+".docx";
+	    String teacher = ShiroUtils.getUserEntity().getUsername();
+	    String fileName = teacher+"("+n+").docx";
 		try {
 			//os = new FileOutputStream("f:\\"+fileName);  
 			xdoc.write(os);
@@ -222,7 +222,7 @@ public class FileUtil {
     			row = rows.get(i);
                 cells = row.getTableCells();  
                 XWPFTableCell cell = null;
-                if(i<lists.size()) {
+                if(i<=lists.size()) {
                 	 Map<String,Object> params = lists.get(i-1);
                      for (int k = 0,j=1; k < params.keySet().size(); k++,j++) { 
                      	cell = cells.get(j);

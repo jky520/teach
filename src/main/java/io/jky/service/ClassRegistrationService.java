@@ -30,5 +30,5 @@ public interface ClassRegistrationService {
 	
 	void deleteBatch(Long[] ids);
 	
-	void generatorWord(List<Map<String,Object>> lists,HttpServletResponse response);
+	void generatorWord(String n, List<Map<String,Object>> lists,HttpServletResponse response);
 }

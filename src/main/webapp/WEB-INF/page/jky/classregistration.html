@@ -26,7 +26,8 @@
 			<a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
 			#end
 			#if($shiro.hasPermission("classregistration:down"))
-			<a class="btn btn-primary" @click="down"><i class="fa fa-download"></i>&nbsp;下载</a>
+			<a class="btn btn-primary" @click="down"><i class="fa fa-download"></i>&nbsp;下载一</a>
+			<a v-show="showDown" class="btn btn-primary" @click="down2"><i class="fa fa-download"></i>&nbsp;下载二</a>
 			#end
 		</div>
 	    <table id="jqGrid"></table>
@@ -40,7 +41,7 @@
 			   	<div class="col-sm-2 control-label">年月</div>
 			   	<div class="col-sm-10 input-prepend input-group">
 			   		<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-			      	<input type="text" id="yd" readonly class="form-control" :value="classRegistration.yearMont" placeholder="请选择日期"/>
+			      	<input type="text" id="yd" readonly class="form-control" v-model="classRegistration.yearMont" placeholder="请选择日期"/>
 			    </div>
 			</div>
 									<!-- <div class="form-group">

@@ -8,20 +8,32 @@
 	</select>
 
 	<select id="queryList" resultType="io.jky.entity.ClassRegistrationEntity">
-		select * from class_registration where id in
-		<foreach item="id" collection="ids" open="(" separator="," close=")">
-			#{id}
-		</foreach>
+		select * from class_registration 
+		<if test="crIds != null">
+			where id in
+			<foreach item="id" collection="crIds" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		<if test="crIds == null">
+			where id in (0)
+		</if>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(*) from class_registration where id in
-		<foreach item="id" collection="ids" open="(" separator="," close=")">
-			#{id}
-		</foreach>
+		select count(*) from class_registration
+		<if test="crIds !=null">
+			where id in
+			<foreach item="id" collection="crIds" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		<if test="crIds == null">
+			where id in (0)
+		</if>
 	</select>
 	 
 	<insert id="save" parameterType="io.jky.entity.ClassRegistrationEntity" useGeneratedKeys="true" keyProperty="id">

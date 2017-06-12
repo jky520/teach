@@ -1,11 +1,21 @@
 $(function () {
 	queryDateDefind('#dateclassame',vm.q.dateclassame), // 在加载页面的时候给查询框加上日期控件
 	$("#dateclassame").prop("placeholder",getYearMont());
+	$.ajax({
+		type: "GET",
+	    url: "../jky/classregistration/getCrIdCount?dt="+getYearMont(),
+	    success: function(r){
+	    	console.log(r);
+			if(r.isTrue){
+				vm.showDown = true;
+			}
+		}
+	});
     $("#jqGrid").jqGrid({
         url: '../jky/classregistration/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', width: 50, key: true },
+			{ label: 'id', name: 'id', width: 50, key: true,hidden:true },
 			{ label: '日期', name: 'day', width: 80 }, 			
 			{ label: '星期', name: 'week', width: 80 }, 			
 			{ label: '起止日期', name: 'startFinishDate', width: 80 }, 			
@@ -65,11 +75,10 @@ queryDateDefind= function (obj,inputValue) {
     	//endDate:new Date("2017-14-01")
     }).on('changeDate',function(e){ 		    	
     	var beginTime = e.date;
-    	$(this).datetimepicker('setEndDate', beginTime); 
+    	$(obj).datetimepicker('setEndDate', beginTime); 
     	var value = $(obj).val();
     	//vm.q.dateclassame = value;
     	inputValue = value;
-    	console.log("changeDate===================")
     }).on("show",function(ev) {
     	var dt = new Date();
     	var y = dt.getFullYear();
@@ -79,12 +88,10 @@ queryDateDefind= function (obj,inputValue) {
     		m = 1;
     	}
     	var year = y+"-"+m+"-"+"01";
-    	$(this).datetimepicker('setEndDate', new Date(year));
-    	console.log("show===================")
+    	$(obj).datetimepicker('setEndDate', new Date(year));
     }).on('hide', function (ev) {
-        var value = $(this).val();
+        var value = $(obj).val();
         inputValue = value;
-        console.log("hide===================")
     });
 }
 
@@ -94,6 +101,7 @@ var vm = new Vue({
 	data:{
 		showList: true,
 		title: null,
+		showDown: false,
 		q:{
 			dateclassame: null
 		},
@@ -101,14 +109,15 @@ var vm = new Vue({
 			startDate:"", // 把实体里没有的显示出来
 			endDate:"",
 			isWeek:false,
-			isNight:false
+			isNight:false,
+			yearMont:""
 		}
 	},
 	methods: {
 		//==============================================
 		dateDefind: function () {
 			var obj = '#yd';
-			var inputValue = this.classRegistration.yearMont;
+			var inputValue = vm.classRegistration.yearMont;
 			queryDateDefind(obj,inputValue);
 	    },
 		//==============================================
@@ -119,7 +128,7 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.classRegistration = {};
-			this.dateDefind();
+			vm.dateDefind();
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -134,13 +143,23 @@ var vm = new Vue({
 		},
 		down: function(ev) {
 			var c = vm.q.dateclassame;
-			location.href = "../jky/classregistration/down?dt=" + JSON.stringify(c);
-			
+			if(!c) {
+				c = getYearMont();
+			}
+			location.href = "../jky/classregistration/down?n=1&dt=" + c;
+		},
+		down2: function(ev) {
+			var c = vm.q.dateclassame;
+			if(!c) {
+				c = getYearMont();
+			}
+			location.href = "../jky/classregistration/down?n=2&dt=" + c;
 		},
 		saveOrUpdate: function (event) {
 			var url = vm.classRegistration.id == null ? "../jky/classregistration/save" : "../jky/classregistration/update";
+			vm.classRegistration.yearMoth = $("#yd").val();
+			console.log(vm.classRegistration)
 			var datas = JSON.stringify(vm.classRegistration)
-			console.log(datas)
 			$.ajax({
 				type: "POST",
 			    url: url,
@@ -188,7 +207,15 @@ var vm = new Vue({
 			queryDateDefind('#dateclassame',vm.q.dateclassame),
 			vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
-			console.log(vm.q.dateclassame)
+			$.ajax({
+				type: "GET",
+			    url: "../jky/classregistration/getCrIdCount?dt="+vm.q.dateclassame,
+			    success: function(r){
+					if(r.isTrue){
+						vm.showDown = true;
+					}
+				}
+			});
 			$("#jqGrid").jqGrid('setGridParam',{ 
 				postData:{'dt': vm.q.dateclassame}, // 查询自己可以新增参数
                 page:page

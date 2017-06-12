@@ -16,7 +16,7 @@ public class GeneratorDateUtils {
 	
 	public void generatorData(ClassRegistrationDao classRegistrationDao,ClassRegistrationEntity classRegistrationEntity,DateclassRegistDao dateclassRegistDao,DateclassRegistEntity dre) throws ParseException {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM");//小写的mm表示的是分钟 
-		String dstr=classRegistrationEntity.getYearMont();  
+		String dstr=classRegistrationEntity.getYearMoth(); 
 		Date date=sdf.parse(dstr);  
 		Calendar cal=Calendar.getInstance();
 		cal.setTime(date);  

@@ -1,11 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>io.renren</groupId>
-  <artifactId>renren-security</artifactId>
-  <version>1.0</version>
-  <packaging>war</packaging>
-  <description>renren-security</description>
-  
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>io.renren</groupId>
+	<artifactId>renren-security</artifactId>
+	<version>1.0</version>
+	<packaging>war</packaging>
+	<description>renren-security</description>
+
 	<properties>
 		<java-version>1.7</java-version>
 		<servlet-version>3.1.0</servlet-version>
@@ -33,7 +34,7 @@
 		<taglibs-version>1.1.2</taglibs-version>
 		<freemarker-version>2.3.23</freemarker-version>
 	</properties>
-	
+
 	<!-- 阿里云maven仓库 -->
 	<repositories>
 		<repository>
@@ -61,11 +62,11 @@
 
 	<dependencies>
 		<dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit-version}</version>
-            <scope>test</scope>
-        </dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit-version}</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -109,21 +110,21 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-            <groupId>org.slf4j</groupId>
+			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-            <version>${slf4j-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j-version}</version>
-        </dependency>
+			<version>${slf4j-version}</version>
+		</dependency>
 		<dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4j-version}</version>
-        </dependency>
-        <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j-version}</version>
+		</dependency>
+		<dependency>
 			<artifactId>commons-logging</artifactId>
 			<groupId>commons-logging</groupId>
 			<version>${commons-logging-version}</version>
@@ -154,14 +155,14 @@
 			<version>${commons-io-version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.alibaba</groupId>
-		    <artifactId>fastjson</artifactId>
-		    <version>${fastjson-version}</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson-version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>commons-codec</groupId>
-		    <artifactId>commons-codec</artifactId>
-		    <version>${commons-codec-version}</version>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons-codec-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-configuration</groupId>
@@ -169,14 +170,14 @@
 			<version>${commons-configuration-version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.shiro</groupId>
-		    <artifactId>shiro-core</artifactId>
-		    <version>${shiro-version}</version>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+			<version>${shiro-version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.shiro</groupId>
-		    <artifactId>shiro-spring</artifactId>
-		    <version>${shiro-version}</version>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>${shiro-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
@@ -197,58 +198,58 @@
 		<!-- Velocity视图所需jar -->
 		<dependency>
 			<artifactId>velocity</artifactId>
-            <groupId>org.apache.velocity</groupId>
+			<groupId>org.apache.velocity</groupId>
 			<version>${velocity-version}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity-tools</artifactId>
-            <version>${velocity-tools-version}</version>
-            <exclusions>
-            	<exclusion>
-            		<artifactId>dom4j</artifactId>
-            		<groupId>dom4j</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>oro</artifactId>
-            		<groupId>oro</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>sslext</artifactId>
-            		<groupId>sslext</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>struts-core</artifactId>
-            		<groupId>org.apache.struts</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>struts-taglib</artifactId>
-            		<groupId>org.apache.struts</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>struts-tiles</artifactId>
-            		<groupId>org.apache.struts</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>commons-validator</artifactId>
-            		<groupId>commons-validator</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>commons-beanutils</artifactId>
-            		<groupId>commons-beanutils</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>commons-chain</artifactId>
-            		<groupId>commons-chain</groupId>
-            	</exclusion>
-            	<exclusion>
-            		<artifactId>commons-collections</artifactId>
-            		<groupId>commons-collections</groupId>
-            	</exclusion>
-            </exclusions>
-        </dependency>
-        <!-- JSP视图所需jar -->
-        <dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-tools</artifactId>
+			<version>${velocity-tools-version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>dom4j</artifactId>
+					<groupId>dom4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>oro</artifactId>
+					<groupId>oro</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>sslext</artifactId>
+					<groupId>sslext</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>struts-core</artifactId>
+					<groupId>org.apache.struts</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>struts-taglib</artifactId>
+					<groupId>org.apache.struts</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>struts-tiles</artifactId>
+					<groupId>org.apache.struts</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-validator</artifactId>
+					<groupId>commons-validator</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-beanutils</artifactId>
+					<groupId>commons-beanutils</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-chain</artifactId>
+					<groupId>commons-chain</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-collections</artifactId>
+					<groupId>commons-collections</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- JSP视图所需jar -->
+		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstl-version}</version>
@@ -259,55 +260,61 @@
 			<version>${taglibs-version}</version>
 		</dependency>
 		<!-- Freemarker视图所需jar -->
-        <dependency>
+		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
 			<version>${freemarker-version}</version>
 		</dependency>
-		
+
 		<!-- word生成依赖jar -->
 		<dependency>
-		    <groupId>com.lowagie</groupId>
-		    <artifactId>itext</artifactId>
-		    <version>2.1.7</version>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>2.1.7</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.itextpdf</groupId>
-		    <artifactId>itext-asian</artifactId>
-		    <version>5.2.0</version>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itext-asian</artifactId>
+			<version>5.2.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.lowagie</groupId>
-		    <artifactId>itext-rtf</artifactId>
-		    <version>2.1.7</version>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext-rtf</artifactId>
+			<version>2.1.7</version>
 		</dependency>
-		
+
 		<!-- 读取word的jar -->
 		<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi</artifactId>
-		    <version>3.16</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.16</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi-scratchpad</artifactId>
-		    <version>3.16</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>3.16</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi-ooxml</artifactId>
-		    <version>3.16</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.16</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi-ooxml-schemas</artifactId>
-		    <version>3.16</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>3.16</version>
 		</dependency>
-		
-		
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.1</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>

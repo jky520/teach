@@ -80,16 +80,19 @@ public class ClassRegistrationServiceImpl implements ClassRegistrationService {
 	@Override
 	public void delete(Long id){
 		classRegistrationDao.delete(id);
+		dateclassRegistDao.deleteBatch(new Long[]{id});
 	}
 	
 	@Override
 	public void deleteBatch(Long[] ids){
 		classRegistrationDao.deleteBatch(ids);
+		dateclassRegistDao.deleteBatch(ids);
 	}
 
 	@Override
 	public void generatorWord(String n, List<Map<String,Object>> lists, HttpServletResponse response) {
 		String url = "f:\\课时登记表.docx";
+		//String url = "d:\\hx\\课时登记表.docx";
 		try {
 			FileUtil.readwriteWord(n,url, lists,response);
 		} catch (IOException e) {

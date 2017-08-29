@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -144,11 +145,12 @@ public class ClassRegistrationController {
 		map.put("crIds", crIds);
 		List<ClassRegistrationEntity> classRegistrationList = classRegistrationService.queryList(map);
 		String teacher = ShiroUtils.getUserEntity().getUsername();
+		
 		List<Map<String,Object>> lists = new ArrayList<Map<String,Object>>();
 		List<Map<String,Object>> lists1 = new ArrayList<Map<String,Object>>();
 		
 		for(ClassRegistrationEntity cre : classRegistrationList) {
-			if(lists.size()<=30) {
+			if(lists.size()<30) {
 				lists.add(getEntityMap(cre,teacher));
 			} else {
 				lists1.add(getEntityMap(cre,teacher));
@@ -176,12 +178,12 @@ public class ClassRegistrationController {
 	}
 	
 	private Long[] getCrIds(String dt,HttpServletResponse response) {
-		if(dt == null || "".equals(dt)) {
+		if(dt == null || "".equals(dt.trim())) {
 			dt = sdf.format(new Date());
 		}
-		DateClassEntity dec = dateClassService.getObjectByName(dt);
+		DateClassEntity dec = dateClassService.getObjectByName(dt.trim());
 		Long userId = ShiroUtils.getUserId();
-		List<Long> ss =  dateclassRegistService.queryDcIdByUserId(userId, dec.getId());
+		List<Long> ss = dec == null ? new ArrayList<Long>() : dateclassRegistService.queryDcIdByUserId(userId, dec.getId());
 		Long[] crIds = ss.size() > 0 ? ss.toArray(new Long[]{}) : new Long[]{};
 		return crIds;
 	}
